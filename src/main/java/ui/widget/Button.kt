@@ -6,7 +6,9 @@ import org.jetbrains.skia.Paint
 import ui.RenderSystem
 import ui.modifier.Modifier
 import ui.node.Node
+import ui.theme.ThemeManager
 import utils.render.RenderUtils
+import java.awt.event.MouseEvent
 
 
 class ButtonWidget(
@@ -18,15 +20,22 @@ class ButtonWidget(
         height = 40f
     }
 
+    override fun click(e: MouseEvent) {
+        super.click(e)
+        if (findHit(this) == this) {
+            onClick()
+        }
+    }
     override fun drawContent(canvas: Canvas) {
         super.drawContent(canvas)
+
         val paint = Paint().apply {
             color = if (isHovered) Color.YELLOW else Color.BLUE
         }
         if (isHovered) {
-            RenderUtils.drawRoundRectangle(canvas,x,y,width,height,8f, Color.BLUE)
+            RenderUtils.drawRoundRectangle(canvas,x,y,width,height,8f, Color.WHITE)
         } else {
-            RenderUtils.drawRoundRectangle(canvas,x,y,width,height,8f, Color.RED)
+            RenderUtils.drawRoundRectangle(canvas,x,y,width,height,8f, Color.BLUE)
         }
     }
 

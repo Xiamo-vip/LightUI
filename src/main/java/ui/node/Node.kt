@@ -20,7 +20,9 @@ abstract class Node {
     open fun mouseMove(e: MouseEvent) {
         if (findHit(this) == this) isHovered = true else isHovered = false
     }
+    open fun click(e: MouseEvent) {
 
+    }
     open fun layout() {}
     open fun render(canvas: Canvas) {
         isHovered = findHit(this) == this
@@ -30,7 +32,9 @@ abstract class Node {
         }
     }
 
-    open fun drawContent(canvas: Canvas) {}
+    open fun drawContent(canvas: Canvas) {
+
+    }
 
     fun findHit(node: Node): Node? {
         val mouseX = InputManager.mouseX

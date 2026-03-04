@@ -4,6 +4,10 @@ import ui.RenderSystem
 import ui.modifier.Modifier
 import ui.node.Node
 
+/**
+ * Row 水平布局
+ */
+
 class RowNode : Node() {
 
     override fun layout() {

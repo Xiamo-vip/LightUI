@@ -1,5 +1,6 @@
 package ui.anim
 
+import utils.render.ColorUtils
 
 
 private class AnimState(var currentValue: Float) {
@@ -8,9 +9,16 @@ private class AnimState(var currentValue: Float) {
     var startTime: Long = 0L
 }
 
+
+private class ColorAnimState(var currentColor: Int) {
+    var targetColor: Int = currentColor
+    var startColor: Int = currentColor
+    var startTime: Long = 0L
+}
+
 object Animator {
     private val states = mutableMapOf<String, AnimState>()
-
+    private val colorStates = mutableMapOf<String, ColorAnimState>()
     /**
      * 动画函数
      * @param id 标识符
@@ -47,6 +55,34 @@ object Animator {
         }
 
         return state.currentValue
+    }
+
+    fun animateColor(
+        id: String,
+        targetColor: Int,
+        durationMs: Long = 400L,
+        animationFunction: AnimationFunction = AnimationFunction.EASE_OUT_CUBIC
+    ): Int {
+        val state = colorStates.getOrPut(id) { ColorAnimState(targetColor) }
+        if (state.targetColor != targetColor) {
+            state.startColor = state.currentColor
+            state.targetColor = targetColor
+            state.startTime = System.nanoTime()
+        }
+
+        if (state.currentColor != state.targetColor) {
+            val elapsedMs = (System.nanoTime() - state.startTime) / 1_000_000L
+            val progress = (elapsedMs.toFloat() / durationMs).coerceIn(0f, 1f)
+            val easedProgress = AnimationFunctionManager.animate(progress, animationFunction)
+            state.currentColor = ColorUtils.lerpHSB(state.startColor, state.targetColor, easedProgress)
+            if (progress < 1f) {
+                SkiaRender.skiaLayer.needRedraw()
+            } else {
+                state.currentColor = state.targetColor
+            }
+        }
+
+        return state.currentColor
     }
 
 }

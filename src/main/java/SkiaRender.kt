@@ -11,6 +11,9 @@ import ui.layout.Row
 import ui.modifier.Modifier
 import ui.modifier.alpha
 import ui.modifier.hoverScale
+import ui.theme.ThemeManager
+import ui.theme.themes.Dark
+import ui.theme.themes.Light
 import ui.widget.Button
 import java.awt.Dimension
 import javax.swing.JFrame
@@ -23,34 +26,32 @@ object SkiaRender {
         skiaLayer.renderDelegate = SkiaLayerRenderDelegate(skiaLayer, object : SkikoRenderDelegate {
             override fun onRender(canvas: Canvas, width: Int, height: Int, nanoTime: Long) {
                 RenderSystem.begin()
+                canvas.clear(ThemeManager.colors.secondary)
                 Column {
                     Button("OK", modifier = Modifier
                         .hoverScale(targetScale = 1.15f)
-                        .alpha(targetAlpha = 0.8f)
                     ) {
+                        ThemeManager.switchTheme(Dark())
                     }
 
                     Button("OK", modifier = Modifier
-                        .hoverScale(targetScale = 10.15f)
-                        .alpha( targetAlpha = 0.8f)
+                        .hoverScale(targetScale = 1.15f)
                     ) {
+                        ThemeManager.switchTheme(Light())
                     }
                     Row(Modifier.alpha(0.8f)) {
                         Button("OK", modifier = Modifier
                             .hoverScale(targetScale = 1.15f)
-                            .alpha( targetAlpha = 0.8f)
                         ) {
                         }
                         Button("OK", modifier = Modifier
                             .hoverScale(targetScale = 1.15f)
-                            .alpha( targetAlpha = 0.8f)
                         ) {
                         }
                     }
                 }
 
                 RenderSystem.end(canvas)
-                InputManager.updateMouseClick(false)
             }
 
 

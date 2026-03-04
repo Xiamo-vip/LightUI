@@ -10,7 +10,7 @@ import java.awt.event.MouseWheelEvent
 
 object MouseAdapter : MouseAdapter() {
     override fun mouseClicked(e: MouseEvent) {
-        InputManager.updateMouseClick(true)
+        InputManager.updateMouseClick(e)
         super.mouseClicked(e)
     }
 

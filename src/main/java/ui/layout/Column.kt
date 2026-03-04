@@ -4,6 +4,11 @@ import ui.RenderSystem
 import ui.modifier.Modifier
 import ui.node.Node
 
+
+/**
+ * Column垂直布局
+ */
+
 class ColumnNode : Node() {
     override fun layout() {
         var currentY = y

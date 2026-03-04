@@ -9,24 +9,28 @@ object InputManager {
     var mouseX = 0f
     var mouseY = 0f
     private var isMouseDown = false
-    private var wasMouseClicked = false
 
 
-    fun broadcast(event: MouseEvent) {
+    fun broadcastMove(event: MouseEvent) {
         RenderSystem.getAllNodes().forEach { node ->
             node.mouseMove(event)
+        }
+    }
+    fun broadcastClick(event: MouseEvent) {
+        RenderSystem.getAllNodes().forEach { node ->
+            node.click(event)
         }
     }
     fun updateMousePosition(event: MouseEvent) {
         this.mouseX = event.x.toFloat()
         this.mouseY = event.y.toFloat()
-        broadcast(event)
+        broadcastMove(event)
     }
     fun updateMouseDown(bool: Boolean) {
         isMouseDown = bool
     }
-    fun updateMouseClick(bool: Boolean) {
-        wasMouseClicked = bool
+    fun updateMouseClick(event: MouseEvent) {
+        broadcastClick(event)
     }
 
 
