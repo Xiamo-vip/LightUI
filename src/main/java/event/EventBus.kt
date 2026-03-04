@@ -1,0 +1,8 @@
+package event
+
+object EventBus {
+
+
+
+
+}
