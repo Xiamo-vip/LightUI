@@ -1,9 +1,6 @@
 package top.xiamoi.lightui.ui.modifier
 
-import org.jetbrains.skia.Canvas
-import org.jetbrains.skia.Color
-import org.jetbrains.skia.Paint
-import org.jetbrains.skia.Rect
+import org.jetbrains.skia.*
 import top.xiamoi.lightui.ui.anim.Animator
 import top.xiamoi.lightui.ui.layout.values.PaddingValue
 import top.xiamoi.lightui.ui.node.Node
@@ -162,6 +159,25 @@ fun Modifier.margin(left : Int = PaddingValue.NOCHANGE, right : Int = PaddingVal
             top.takeIf {it  >= 0 }.apply { node.contentMargin.top = top }
             bottom.takeIf {it  >= 0 }.apply { node.contentMargin.bottom = bottom }
             defaultLayout()
+        }
+    }
+)
+
+fun Modifier.shadow(elevation : Float = 20f,dx : Float = 0f ,dy : Float = 0f,color: Int = Color.BLACK,mode : FilterBlurMode = FilterBlurMode.NORMAL) : Modifier = this.then(
+    object : Modifier {
+        override fun draw(canvas: Canvas, node: Node, drawContent: () -> Unit) {
+            val shadowPaint = Paint().apply {
+                this.color = color
+                isAntiAlias = true
+                maskFilter = MaskFilter.makeBlur(mode = mode , elevation / 2f)
+            }
+            canvas.save()
+            canvas.translate(dx, dy)
+            canvas.drawPath(node.contentPath, shadowPaint)
+            canvas.restore()
+            drawContent()
+
+
         }
     }
 )

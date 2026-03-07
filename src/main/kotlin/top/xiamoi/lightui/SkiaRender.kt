@@ -13,6 +13,7 @@ import top.xiamoi.lightui.ui.modifier.Modifier
 import top.xiamoi.lightui.ui.modifier.background
 import top.xiamoi.lightui.ui.modifier.fillMaxSize
 import top.xiamoi.lightui.ui.modifier.margin
+import top.xiamoi.lightui.ui.modifier.shadow
 import top.xiamoi.lightui.ui.theme.ThemeManager
 import top.xiamoi.lightui.ui.theme.themes.Dark
 import top.xiamoi.lightui.ui.theme.themes.Light

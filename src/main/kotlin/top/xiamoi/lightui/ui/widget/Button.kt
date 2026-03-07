@@ -3,15 +3,12 @@ package top.xiamoi.lightui.ui.widget
 import org.jetbrains.skia.Canvas
 import org.jetbrains.skia.Color
 import org.jetbrains.skia.Paint
-import org.jetbrains.skia.Path
-import org.jetbrains.skia.RRect
 import top.xiamoi.lightui.ui.InputManager
 import top.xiamoi.lightui.ui.RenderSystem
 import top.xiamoi.lightui.ui.anim.Animator
-import top.xiamoi.lightui.ui.anim.effect.ripple.RippleInfo
 import top.xiamoi.lightui.ui.anim.effect.ripple.RippleManager
-import top.xiamoi.lightui.ui.layout.values.MarginValue
 import top.xiamoi.lightui.ui.modifier.Modifier
+import top.xiamoi.lightui.ui.modifier.shadow
 import top.xiamoi.lightui.ui.node.Node
 import top.xiamoi.lightui.utils.RenderUtils
 import java.awt.event.MouseEvent
@@ -58,21 +55,21 @@ class ButtonWidget(
         return null
     }
 
+    override fun initPath() {
+        if (isHovered) {
+            this.contentPath.addPath(RenderUtils.drawRoundRectanglePath(x,y,width,height,12f))
+
+        } else {
+            this.contentPath.addPath(RenderUtils.drawRoundRectanglePath(x,y,width,height,12f))
+        }
+
+    }
+
     override fun drawContent(canvas: Canvas) {
-        super.drawContent(canvas)
         val paint = Paint().apply {
             color = Animator.animateColor(id + "HoverColor", if (isHovered) Color.withA(Color.BLUE,200) else Color.BLUE)
             isAntiAlias = true
         }
-        if (isHovered) {
-           this.contentPath.addPath(RenderUtils.drawRoundRectanglePath(x,y,width,height,8f))
-            RRect.makeXYWH(x, y, width, height, 8f)
-
-        } else {
-            this.contentPath.addPath(RenderUtils.drawRoundRectanglePath(x,y,width,height,8f))
-        }
-
-
         canvas.drawPath(contentPath, paint)
         rippleInfo.apply(canvas,contentPath)
 
@@ -83,7 +80,7 @@ class ButtonWidget(
 
 fun Button(text : String = "Button", modifier: Modifier = Modifier, onClick : () -> Unit = {}, content : () -> Unit) {
     val btn = ButtonWidget(text, onClick)
-    btn.modifier = modifier
+    btn.modifier = modifier.shadow()
     RenderSystem.add(btn)
     RenderSystem.pushNode(btn)
     content()

@@ -49,10 +49,15 @@ abstract class Node {
             initLayout()
         }
     }
+
+
      fun render(canvas: Canvas) {
         isHovered = findHit(
             InputManager.mouseX,
             InputManager.mouseY) == this
+
+         this.initPath()
+
         modifier.draw(canvas, this) {
             drawContent(canvas)
             children.forEach { it.render(canvas) }
@@ -92,7 +97,11 @@ abstract class Node {
     }
 
     open fun drawContent(canvas: Canvas) {
-        this.contentPath.reset()
+
+
+    }
+
+    open fun initPath() {
     }
 
     open fun findHit(mouseX : Float, mouseY : Float): Node? {
