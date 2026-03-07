@@ -1,22 +1,25 @@
 package top.xiamoi.lightui.ui
 
 import org.jetbrains.skia.Canvas
-import top.xiamoi.lightui.ui.font.FontManager
+import top.xiamoi.lightui.ui.node.Node
 import top.xiamoi.lightui.ui.node.RootNode
-import top.xiamoi.lightui.ui.theme.ThemeManager
-import java.util.Stack
+import top.xiamoi.lightui.utils.ClearUtils
+import java.util.*
 
 internal object RenderSystem {
-    var root: top.xiamoi.lightui.ui.node.RootNode? = null
-    var lastFrameRoot : top.xiamoi.lightui.ui.node.RootNode? = null
+    var root: RootNode? = null
+    var lastFrameRoot : RootNode? = null
 
 
-    private val parentStack = Stack<top.xiamoi.lightui.ui.node.Node>()
+    private val parentStack = Stack<Node>()
     private var nodeCounter = 0
 
 
 
     fun begin(windowWidth: Int, windowHeight: Int) {
+
+        lastFrameRoot?.let { ClearUtils.clearEvents(it) }
+
         root = RootNode().apply {
             this.width = windowWidth.toFloat()
             this.height = windowHeight.toFloat()
@@ -32,7 +35,7 @@ internal object RenderSystem {
         return nodeCounter
     }
 
-    fun add(node: top.xiamoi.lightui.ui.node.Node) {
+    fun add(node: Node) {
         val parent = parentStack.peek()
         parent.children.add(node)
         node.parent = parent
@@ -44,9 +47,9 @@ internal object RenderSystem {
         lastFrameRoot = root
     }
 
-    fun getAllNodes(): List<top.xiamoi.lightui.ui.node.Node> {
-        val result = mutableListOf<top.xiamoi.lightui.ui.node.Node>()
-        fun traverse(current: top.xiamoi.lightui.ui.node.Node) {
+    fun getAllNodes(): List<Node> {
+        val result = mutableListOf<Node>()
+        fun traverse(current: Node) {
             result.add(current)
             current.children.forEach { traverse(it) }
         }
@@ -54,7 +57,7 @@ internal object RenderSystem {
         return result
     }
 
-    fun pushNode(nodes: top.xiamoi.lightui.ui.node.Node) {
+    fun pushNode(nodes: Node) {
         parentStack.push(nodes)
     }
     fun popNode() {

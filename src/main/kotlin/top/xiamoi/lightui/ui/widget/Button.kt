@@ -3,6 +3,9 @@ package top.xiamoi.lightui.ui.widget
 import org.jetbrains.skia.Canvas
 import org.jetbrains.skia.Color
 import org.jetbrains.skia.Paint
+import top.xiamoi.lightui.event.EventBus
+import top.xiamoi.lightui.event.EventListener
+import top.xiamoi.lightui.event.MouseClickEvent
 import top.xiamoi.lightui.ui.InputManager
 import top.xiamoi.lightui.ui.RenderSystem
 import top.xiamoi.lightui.ui.anim.Animator
@@ -11,13 +14,12 @@ import top.xiamoi.lightui.ui.modifier.Modifier
 import top.xiamoi.lightui.ui.modifier.shadow
 import top.xiamoi.lightui.ui.node.Node
 import top.xiamoi.lightui.utils.RenderUtils
-import java.awt.event.MouseEvent
 
 
 class ButtonWidget(
     private val text: String,
     private val onClick: () -> Unit
-) : top.xiamoi.lightui.ui.node.Node() {
+) : Node() {
 
     private val rippleInfo  = RippleManager.getRippleInfo(id)
 
@@ -30,6 +32,7 @@ class ButtonWidget(
             this.start = 10
             this.end = 10
         }
+        EventBus.subscribe(this)
     }
 
     override fun initLayout() {
@@ -37,8 +40,8 @@ class ButtonWidget(
 
     }
 
-    override fun click(e: MouseEvent) {
-        super.click(e)
+    @EventListener
+     fun click(e: MouseClickEvent) {
         if (isHovered) {
             rippleInfo.spawnRipple(InputManager.mouseX,InputManager.mouseY, Color.WHITE, radius = width)
             onClick()

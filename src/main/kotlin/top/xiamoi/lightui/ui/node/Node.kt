@@ -7,7 +7,6 @@ import top.xiamoi.lightui.ui.RenderSystem
 import top.xiamoi.lightui.ui.layout.values.MarginValue
 import top.xiamoi.lightui.ui.layout.values.PaddingValue
 import top.xiamoi.lightui.ui.modifier.Modifier
-import java.awt.event.MouseEvent
 
 abstract class Node {
     var id = RenderSystem.generateWidgetID().toString()
@@ -38,12 +37,6 @@ abstract class Node {
     val contentPadding = PaddingValue(0,0,0,0)
     val contentMargin = MarginValue(0,0,0,0)
 
-    open fun mouseMove(e: MouseEvent) {
-
-    }
-    open fun click(e: MouseEvent) {
-
-    }
      fun layout() {
         modifier.layout(this) {
             initLayout()
