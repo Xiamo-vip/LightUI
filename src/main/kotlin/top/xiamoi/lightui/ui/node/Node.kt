@@ -2,6 +2,8 @@ package top.xiamoi.lightui.ui.node
 
 import org.jetbrains.skia.Canvas
 import org.jetbrains.skia.Path
+import top.xiamoi.lightui.event.EventListener
+import top.xiamoi.lightui.event.MouseClickEvent
 import top.xiamoi.lightui.ui.InputManager
 import top.xiamoi.lightui.ui.RenderSystem
 import top.xiamoi.lightui.ui.layout.values.MarginValue
@@ -30,6 +32,8 @@ abstract class Node {
     var height = 0f
 
     var isHovered = false
+    val isOnFocus
+        get() = InputManager.getFocusedNodeID() == id
     var modifier: Modifier = Modifier
     var isIgnoreFocus = false
 
@@ -42,7 +46,6 @@ abstract class Node {
             initLayout()
         }
     }
-
 
      fun render(canvas: Canvas) {
         isHovered = findHit(
@@ -89,13 +92,9 @@ abstract class Node {
 
     }
 
-    open fun drawContent(canvas: Canvas) {
+    open fun drawContent(canvas: Canvas) {}
 
-
-    }
-
-    open fun initPath() {
-    }
+    open fun initPath() {}
 
     open fun findHit(mouseX : Float, mouseY : Float): Node? {
         for (i in children.reversed()) {
@@ -110,5 +109,17 @@ abstract class Node {
         }
         return null
     }
+
+
+    @EventListener
+    fun isClicked(mouseClickEvent: MouseClickEvent) {
+        if (isHovered) {
+            InputManager.updateFocusedNode(this.id)
+        } else if (InputManager.getFocusedNodeID() == this.id) {
+            InputManager.updateFocusedNode(null)
+        }
+    }
+
+    open fun onClicked() {}
 
 }

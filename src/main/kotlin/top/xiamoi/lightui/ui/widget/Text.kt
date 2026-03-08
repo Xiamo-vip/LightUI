@@ -7,9 +7,10 @@ import top.xiamoi.lightui.ui.RenderSystem
 import top.xiamoi.lightui.ui.font.FontManager
 import top.xiamoi.lightui.ui.font.FontStyle
 import top.xiamoi.lightui.ui.modifier.Modifier
+import top.xiamoi.lightui.ui.node.Node
 import top.xiamoi.lightui.ui.theme.ThemeManager
 
-class TextWidget (val text: String, val textColor: Int, val fonStyle: FontStyle,): top.xiamoi.lightui.ui.node.Node() {
+class TextWidget (val text: String, val textColor: Int, val fonStyle: FontStyle,): Node() {
     val applyFont = FontManager.buildFont(fonStyle.fontName,fonStyle.fontSize).apply {
         isSubpixel = true
         edging = FontEdging.SUBPIXEL_ANTI_ALIAS

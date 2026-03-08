@@ -14,6 +14,9 @@ internal object RenderSystem {
     private val parentStack = Stack<Node>()
     private var nodeCounter = 0
 
+    val timeMills
+        get() = System.currentTimeMillis()
+
 
 
     fun begin(windowWidth: Int, windowHeight: Int) {

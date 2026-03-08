@@ -2,10 +2,11 @@ package top.xiamoi.lightui.ui.theme
 
 import top.xiamoi.lightui.ui.anim.Animator
 import top.xiamoi.lightui.ui.theme.themes.Dark
+import top.xiamoi.lightui.ui.theme.themes.Light
 import java.lang.reflect.Proxy
 
 object ThemeManager {
-    var targetTheme: Theme = Dark()
+    var targetTheme: Theme = Light()
 
     fun switchTheme(theme: Theme) {
         targetTheme = theme
