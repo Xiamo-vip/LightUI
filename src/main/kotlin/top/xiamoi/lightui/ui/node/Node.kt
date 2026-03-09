@@ -114,6 +114,7 @@ abstract class Node {
     @EventListener
     fun isClicked(mouseClickEvent: MouseClickEvent) {
         if (isHovered) {
+            onClicked()
             InputManager.updateFocusedNode(this.id)
         } else if (InputManager.getFocusedNodeID() == this.id) {
             InputManager.updateFocusedNode(null)
