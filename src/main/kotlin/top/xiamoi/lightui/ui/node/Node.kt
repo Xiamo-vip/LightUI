@@ -28,8 +28,12 @@ abstract class Node {
             children.forEach { it.y += dy }
         }
 
+
     var width = 0f
     var height = 0f
+
+    var contentWidth = 0f
+    var contentHeight = 0f
 
     var isHovered = false
     val isOnFocus
@@ -89,6 +93,9 @@ abstract class Node {
             child.x = this.x + contentPadding.start + child.contentMargin.left
             child.y = this.y + contentPadding.top + child.contentMargin.top
         }
+
+        this.contentWidth = this.width - this.contentPadding.start - this.contentPadding.end
+        this.contentHeight = this.height - this.contentPadding.top - this.contentPadding.end
 
     }
 

@@ -6,6 +6,7 @@ import top.xiamoi.lightui.event.EventBus
 import top.xiamoi.lightui.event.EventListener
 import top.xiamoi.lightui.event.KeyTypedEvent
 import top.xiamoi.lightui.event.MouseDragEvent
+import top.xiamoi.lightui.event.TextInputEvent
 import top.xiamoi.lightui.ui.InputManager
 import top.xiamoi.lightui.ui.RenderSystem
 import top.xiamoi.lightui.ui.font.FontManager
@@ -138,6 +139,8 @@ open class BaseTextFieldWidget(
             val requiredHeight = fontTotalHeight * tokens.size + paddingHeight
             this.height = max(requiredHeight, defaultHeight)
         }
+
+        super.initLayout()
     }
 
 
@@ -171,7 +174,7 @@ open class BaseTextFieldWidget(
     }
 
     @EventListener
-    fun onTextInput(e: top.xiamoi.lightui.event.TextInputEvent) {
+    fun onTextInput(e: TextInputEvent) {
         if (!isOnFocus) return
         val startIdx = minOf(InputManager.selectionStart, InputManager.selectionEnd).coerceIn(0, text.length)
         val endIdx = maxOf(InputManager.selectionStart, InputManager.selectionEnd).coerceIn(0, text.length)
@@ -229,7 +232,7 @@ open class BaseTextFieldWidget(
     private fun drawBlinkingCursor(canvas: Canvas, cursorXOffset: Float, cursorYOffset: Float, cursorHeight: Float) {
         val alphaRatio = (sin(RenderSystem.timeMills / 150.0) + 1.0) / 2.0
         cursorPaint.alpha = (alphaRatio * 255).toInt()
-        val cursorX = x + cursorXOffset // 移除原来的 +4f，紧贴文字
+        val cursorX = x + cursorXOffset
         val cursorY = y + cursorYOffset
         canvas.drawRect(Rect(cursorX, cursorY, cursorX + 1.5f, cursorY + cursorHeight), cursorPaint)
     }

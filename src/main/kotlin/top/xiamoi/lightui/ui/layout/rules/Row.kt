@@ -1,13 +1,14 @@
-package top.xiamoi.lightui.ui.layout
+package top.xiamoi.lightui.ui.layout.rules
 
 import top.xiamoi.lightui.ui.RenderSystem
 import top.xiamoi.lightui.ui.modifier.Modifier
+import top.xiamoi.lightui.ui.node.Node
 
 /**
  * Row 水平布局
  */
 
-class RowNode : top.xiamoi.lightui.ui.node.Node() {
+class RowNode : Node() {
 
     override fun initLayout() {
         /*

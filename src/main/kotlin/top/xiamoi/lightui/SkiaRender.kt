@@ -1,26 +1,32 @@
 package top.xiamoi.lightui
 
+import org.jetbrains.skia.Bitmap
 import org.jetbrains.skia.Canvas
+import org.jetbrains.skia.Color
+import org.jetbrains.skia.Image
 import org.jetbrains.skiko.SkiaLayer
 import org.jetbrains.skiko.SkiaLayerRenderDelegate
 import org.jetbrains.skiko.SkikoRenderDelegate
 import top.xiamoi.lightui.adapter.KeyBoardAdapter
 import top.xiamoi.lightui.adapter.MouseAdapter
 import top.xiamoi.lightui.event.TextInputEvent
+import top.xiamoi.lightui.resource.bitmapFromPath
 import top.xiamoi.lightui.ui.InputManager
 import top.xiamoi.lightui.ui.RenderSystem
 import top.xiamoi.lightui.ui.font.CompanionFonts
 import top.xiamoi.lightui.ui.font.FontStyle
-import top.xiamoi.lightui.ui.layout.Column
-import top.xiamoi.lightui.ui.layout.Row
+import top.xiamoi.lightui.ui.layout.rules.Column
+import top.xiamoi.lightui.ui.layout.rules.Row
 import top.xiamoi.lightui.ui.modifier.Modifier
 import top.xiamoi.lightui.ui.modifier.background
 import top.xiamoi.lightui.ui.modifier.fillMaxSize
 import top.xiamoi.lightui.ui.modifier.margin
+import top.xiamoi.lightui.ui.modifier.width
 import top.xiamoi.lightui.ui.theme.ThemeManager
 import top.xiamoi.lightui.ui.theme.themes.Dark
 import top.xiamoi.lightui.ui.theme.themes.Light
 import top.xiamoi.lightui.ui.widget.Button
+import top.xiamoi.lightui.ui.widget.Image
 import top.xiamoi.lightui.ui.widget.Text
 import top.xiamoi.lightui.ui.widget.TextField
 import java.awt.Cursor
@@ -128,8 +134,14 @@ object SkiaRender {
                     }
                     Text("当前主题：${ThemeManager.targetTheme.javaClass.simpleName}", color = ThemeManager.colors.onBackground)
                     testUI(canvas)
-                    TextField(text = inputText1,onValueChange = {inputText1 = it}, fontStyle = FontStyle.defaultFontStyle, ThemeManager.colors.secondary)
+                    TextField(text = inputText1,onValueChange = {inputText1 = it}, fontStyle = FontStyle.defaultFontStyle, ThemeManager.colors.secondary, placeHolder = {
+                        Text("请输入密码", color = Color.withA(Color.BLACK,150))
+                    })
+
+
                     TextField(text = inputText2,onValueChange = {inputText2 = it}, fontStyle = FontStyle.defaultFontStyle, ThemeManager.colors.secondary)
+                    Image(bitmap = bitmapFromPath("/images/yj.png"), modifier = Modifier.background(Color.BLUE) )
+
                 }
                 RenderSystem.end(canvas)
 
@@ -138,7 +150,7 @@ object SkiaRender {
                 }
                 InputManager.cursorStyle = Cursor.DEFAULT_CURSOR
 
-                skiaLayer.needRedraw()
+
             }
 
 
@@ -176,7 +188,6 @@ object SkiaRender {
                 preferredSize = Dimension(800, 600)
             }
             skiaLayer.attachTo(window.contentPane)
-            skiaLayer.needRedraw()
             window.pack()
             window.isVisible = true
         }

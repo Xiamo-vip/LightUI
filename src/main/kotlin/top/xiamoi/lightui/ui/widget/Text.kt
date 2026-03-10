@@ -38,6 +38,7 @@ class TextWidget (val text: String, val textColor: Int, val fonStyle: FontStyle,
         )
 
 
+
     }
 
 

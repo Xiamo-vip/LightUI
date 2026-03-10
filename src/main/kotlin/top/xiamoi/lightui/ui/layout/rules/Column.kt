@@ -1,14 +1,15 @@
-package top.xiamoi.lightui.ui.layout
+package top.xiamoi.lightui.ui.layout.rules
 
 import top.xiamoi.lightui.ui.RenderSystem
 import top.xiamoi.lightui.ui.modifier.Modifier
+import top.xiamoi.lightui.ui.node.Node
 
 
 /**
  * Column垂直布局
  */
 
-class ColumnNode : top.xiamoi.lightui.ui.node.Node() {
+class ColumnNode : Node() {
     override fun initLayout() {
 
         children.forEach { it.layout() }

@@ -60,8 +60,8 @@ internal object RenderSystem {
         return result
     }
 
-    fun pushNode(nodes: Node) {
-        parentStack.push(nodes)
+    fun pushNode(node: Node) {
+        parentStack.push(node)
     }
     fun popNode() {
         parentStack.pop()
