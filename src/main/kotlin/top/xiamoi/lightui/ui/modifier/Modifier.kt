@@ -67,10 +67,11 @@ fun Modifier.alpha(targetAlpha: Float): Modifier = this.then(
     }
 )
 
-fun Modifier.background(color : Int = Color.TRANSPARENT): Modifier = this.then(
+fun Modifier.background(color : Int = Color.TRANSPARENT,isClip : Boolean = false): Modifier = this.then(
     object : Modifier {
         override fun draw(canvas: Canvas, node: Node, drawContent: () -> Unit) {
             canvas.save()
+            if (isClip) canvas.clipPath(node.contentPath)
             canvas.drawRect(
                 r = Rect(node.x, node.y, node.x + node.width, node.y + node.height),
                 paint = Paint().apply {

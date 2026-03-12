@@ -28,6 +28,11 @@ class ImageWidget(private val bitmap: Bitmap,private val imageScale: ImageScale)
 
     override fun initLayout() {
         super.initLayout()
+
+        /*
+        缩放处理
+         */
+
         when(imageScale) {
             Fit -> {
                 scaleX = min(this.contentWidth / image.width,this.contentHeight / image.height)

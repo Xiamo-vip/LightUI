@@ -44,6 +44,8 @@ abstract class Node {
     val contentPath = Path()
     val contentPadding = PaddingValue(0,0,0,0)
     val contentMargin = MarginValue(0,0,0,0)
+    val contentX = this.x +  this.contentPadding.start
+    val contentY = this.y +  this.contentPadding.top
 
      fun layout() {
         modifier.layout(this) {
@@ -56,6 +58,9 @@ abstract class Node {
             InputManager.mouseX,
             InputManager.mouseY) == this
 
+         this.initPath()
+
+         this.contentPath.reset()
          this.initPath()
 
         modifier.draw(canvas, this) {
