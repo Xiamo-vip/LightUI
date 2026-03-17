@@ -10,6 +10,7 @@ open class CheckBoxStyle (
     var strokeWidthOnDefault : Float,
     var backgroundColorOnDefault : Int,
     var backgroundColorOnChecked : Int,
+    var iconColorOnBackground : Int,
     var roundCorners : Float,
 )
 
@@ -20,6 +21,7 @@ class DefaultCheckBoxStyle(
     strokeWidthOnDefault : Float = 3f,
     backgroundColorOnDefault : Int = Color.makeARGB(0,0,0,0),
     backgroundColorOnChecked : Int = Color.makeRGB(103, 80, 164),
+    iconColorOnBackground : Int = Color.WHITE,
     roundCorners : Float = 3f,
 ) : CheckBoxStyle (
     strokeColorOnDefault,
@@ -28,6 +30,7 @@ class DefaultCheckBoxStyle(
     strokeWidthOnDefault,
     backgroundColorOnDefault,
     backgroundColorOnChecked,
+    iconColorOnBackground,
     roundCorners
 )
 

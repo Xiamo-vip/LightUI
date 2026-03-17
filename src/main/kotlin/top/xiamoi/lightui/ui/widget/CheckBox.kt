@@ -2,7 +2,6 @@ package top.xiamoi.lightui.ui.widget
 
 import org.jetbrains.skia.*
 import top.xiamoi.lightui.event.EventBus
-import top.xiamoi.lightui.resource.bitmapFromPath
 import top.xiamoi.lightui.ui.RenderSystem
 import top.xiamoi.lightui.ui.anim.Animator
 import top.xiamoi.lightui.ui.node.Node
@@ -14,17 +13,6 @@ class BaseCheckBoxWidget(
     val onCheckedChange: (Boolean) -> Unit,
     val style : CheckBoxStyle,
 ) : Node() {
-    val icon = Image.makeFromBitmap(bitmap = bitmapFromPath("/icon/checked.png"))
-    init {
-        this.width = 30f
-        this.height = 30f
-        EventBus.subscribe(this)
-
-    }
-
-    override fun onClicked() {
-        onCheckedChange(!checked)
-    }
 
     val paintStroke = Paint().apply {
         color = if (checked) style.strokeColorOnCheck else if (isHovered) style.strokeColorOnHover else style.strokeColorOnDefault
@@ -38,6 +26,26 @@ class BaseCheckBoxWidget(
         isAntiAlias = true
     }
 
+    private val checkMarkPath = Path.makeFromSVGString("M400-304 240-464l56-56 104 104 264-264 56 56-320 320Z")
+    private val paintCheckMark = Paint().apply {
+        color = style.iconColorOnBackground
+        isAntiAlias = true
+    }
+
+
+
+    init {
+        this.width = 24f
+        this.height = 24f
+        EventBus.subscribe(this)
+
+    }
+
+    override fun onClicked() {
+        onCheckedChange(!checked)
+    }
+
+
 
     override fun initPath() {
         this.contentPath.addRRect(
@@ -47,34 +55,29 @@ class BaseCheckBoxWidget(
     }
 
     override fun drawContent(canvas: Canvas) {
-
-        paintBackground.alpha = Animator.animateFloat(this.id + "backgroundOnChecked",if (checked) 255f else 0f).toInt()
         val scale = Animator.animateFloat(this.id + "iconScale",if (checked) 1f else 0f)
 
-        val actualIconScaledWidth = icon.width * (this.contentWidth / icon.width)
-        val actualIconScaledHeight = icon.height * (this.contentHeight / icon.height)
 
-        val offsetX = (this.contentWidth - actualIconScaledWidth) / 2f
-        val offsetY = (this.contentHeight - actualIconScaledHeight) / 2f
-
+        paintBackground.alpha = Animator.animateFloat(this.id + "backgroundOnChecked",if (checked) 255f else 0f).toInt()
         paintStroke.alpha = 255 - paintBackground.alpha
         canvas.drawPath(this.contentPath,paintStroke)
         canvas.drawRRect(
             RRect.makeXYWH(this.x,this.y,this.width,this.height,style.roundCorners),
             paintBackground
         )
-
-        canvas.save()
-        canvas.translate(
-            this.x + this.contentPadding.start + offsetX,
-            this.y + this.contentPadding.top + offsetY
-        )
-        canvas.scale((this.contentWidth / icon.width),  (this.contentHeight / icon.height))
-        canvas.scale(scale, scale)
-        canvas.drawImage(icon,0f,0f,null)
-        canvas.restore()
-
-
+        if (scale > 0.01f) {
+            canvas.save()
+            val centerX = this.x + this.width / 2f
+            val centerY = this.y + this.height / 2f
+            canvas.translate(centerX, centerY)
+            val bounds = checkMarkPath.bounds
+            val maxDim = maxOf(bounds.width, bounds.height)
+            val autoScale = (this.width / maxDim) * 0.5f
+            canvas.scale(autoScale * scale, autoScale * scale)
+            canvas.translate(-(bounds.left + bounds.width / 2f), -(bounds.top + bounds.height / 2f))
+            canvas.drawPath(checkMarkPath, paintCheckMark)
+            canvas.restore()
+        }
 
         super.drawContent(canvas)
     }
