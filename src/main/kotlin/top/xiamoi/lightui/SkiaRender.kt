@@ -78,6 +78,7 @@ object SkiaRender {
     fun create()  {
         var inputText1 = ""
         var inputText2 = ""
+        var isSelected = false
         skiaLayer.renderDelegate = SkiaLayerRenderDelegate(skiaLayer, object : SkikoRenderDelegate {
             override fun onRender(canvas: Canvas, width: Int, height: Int, nanoTime: Long) {
                 updateFPS(nanoTime)
@@ -96,7 +97,7 @@ object SkiaRender {
                         .background(ThemeManager.colors.background)
                 ) {
                     Column {
-                        Text("FPS：${fps.toString()}", fontStyle = FontStyle(CompanionFonts.MiSans_Medium.name,50f,"normal"), color =
+                        Text("FPS：${fps.toString()}", fontStyle = FontStyle(CompanionFonts.MiSans_Normal.name,50f,"normal"), color =
                             rainbow()
                         )
                         Row {
@@ -124,15 +125,18 @@ object SkiaRender {
                         }
                     }
                     Text("当前主题：${ThemeManager.targetTheme.javaClass.simpleName}", color = ThemeManager.colors.onBackground)
-                    testUI(canvas)
+                    //testUI(canvas)
                     TextField(text = inputText1,onValueChange = {inputText1 = it}, fontStyle = FontStyle.defaultFontStyle, ThemeManager.colors.secondary, placeHolder = {
                         Text("请输入密码", color = Color.withA(Color.BLACK,150))
                     })
 
 
                     TextField(text = inputText2,onValueChange = {inputText2 = it}, fontStyle = FontStyle.defaultFontStyle, ThemeManager.colors.secondary)
-                    Image(bitmap = bitmapFromPath("/images/yj.png"), modifier = Modifier.background(Color.BLUE) )
+                    //Image(bitmap = bitmapFromPath("/images/yj.png"), modifier = Modifier.background(Color.BLUE) )
                     OutlineTextField(inputText1, onValueChange = {inputText1 = it}, modifier = Modifier.padding(10))
+                    Checkbox(isSelected, onCheckedChange = {isSelected = it}) {
+
+                    }
                 }
                 RenderSystem.end(canvas)
 
